@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "nsea.h"
+#include "NSEA.H"
 
 /* OS-specific stuff */
 
@@ -74,13 +74,13 @@ void report( FILE *stream, const BOOLEAN cycleFound, const long count )
 #ifdef __MSDOS__
 	fprintf( stream, "Runtime = %ld seconds\n", ( ( clock() - startTime ) * 10 ) / 182 );
 #else
-	fprintf( stream, "Runtime = %ld seconds\n", ( clock() - startTime ) / CLK_TCK );
+	// fprintf( stream, "Runtime = %ld seconds\n", ( clock() - startTime ) / CLK_TCK );
 #endif /* __MSDOS__ */
 	}
 
 /* The main NSEA cycling program */
 
-void main( const int argc, const char *argv[] )
+int main( const int argc, const char *argv[] )
 	{
 	BYTE key[ 8 ], initialData[ BLOCKSIZE ], workingData[ BLOCKSIZE ];
 	BOOLEAN verbose = FALSE, defParam = FALSE, backGround = FALSE;
@@ -264,4 +264,3 @@ void main( const int argc, const char *argv[] )
 	endNSEA();
 	exit( OK );
 	}
-

@@ -28,8 +28,8 @@
 
 
 #include <stdio.h>
-#include "loki.h"	/* include Interface Specification header file */
-#include "loki.i"	/* include Interface Specification header file */
+#include "LOKI.H"	/* include Interface Specification header file */
+#include "LOKI.I"	/* include Interface Specification header file */
 
 /*
  *	string specifying version and copyright message
@@ -37,10 +37,10 @@
 char	*loki_lib_ver = "LOKI91 library v3.0, Copyright (C) 1991 Lawrence Brown & UNSW";
 
 Long	loki_subkeys[ROUNDS];		/* subkeys at the 16 rounds */
-static Long	f();			/* declare LOKI function f */
-static short	s();			/* declare LOKI S-box fn s */
+static Long	f(Long r, Long k);			/* declare LOKI function f */
+static short	s(Long i);			/* declare LOKI S-box fn s */
 
-
+
 /*
  *	ROL12(b) - macro to rotate 32-bit block b left by 12 bits
  *	ROL13(b) - macro to rotate 32-bit block b left by 13 bits
@@ -55,7 +55,7 @@ static short	s();			/* declare LOKI S-box fn s */
  */
 #ifdef  LITTLE_ENDIAN
 #define bswap(cb) {                             \
-        register char   c;                      \
+         char   c;                      \
         c = cb[0]; cb[0] = cb[3]; cb[3] = c;    \
         c = cb[1]; cb[1] = cb[2]; cb[2] = c;    \
         c = cb[4]; cb[4] = cb[7]; cb[7] = c;    \
@@ -69,11 +69,11 @@ static short	s();			/* declare LOKI S-box fn s */
  */
 
 void
-setlokikey(key)
-char	key[LOKIBLK];		/* Key to use, stored as an array of Longs    */
+setlokikey(char key[LOKIBLK])
+// char	key[LOKIBLK];		/* Key to use, stored as an array of Longs    */
 {
-	register	i;
-	register Long	KL, KR;
+	int	i;
+	Long	KL, KR;
 
 #ifdef LITTLE_ENDIAN
 	bswap(key);			/* swap bytes round if little-endian */
@@ -115,11 +115,11 @@ char	key[LOKIBLK];		/* Key to use, stored as an array of Longs    */
  */
 
 void
-enloki (b)
-char	b[LOKIBLK];
+enloki (char	b[LOKIBLK])
+// char	b[LOKIBLK];
 {
-	register	i;
-	register Long	L, R;		/* left & right data halves  */
+	int	i;
+	Long	L, R;		/* left & right data halves  */
 
 #ifdef LITTLE_ENDIAN
 	bswap(b);			/* swap bytes round if little-endian */
@@ -158,11 +158,10 @@ char	b[LOKIBLK];
  *		the subkeys are used in reverse order.
  */
 void
-deloki(b)
-char	b[LOKIBLK];
+deloki(char	b[LOKIBLK])
 {
-	register	i;
-	register Long	L, R;			/* left & right data halves  */
+	int	i;
+	 Long	L, R;			/* left & right data halves  */
 
 #ifdef LITTLE_ENDIAN
 	bswap(b);			/* swap bytes round if little-endian */
@@ -207,11 +206,11 @@ char	b[LOKIBLK];
  */
 
 #define MASK12	0x0fff			/* 12 bit mask for expansion E */
-
+void perm32(Long	* out, Long	* in , char perm[32]);
 static Long
-f(r, k)
-register Long	r;	/* Data value R(i-1) */
-Long		k;	/* Key     K(i)   */
+f(Long r, Long k)
+//  Long	r;	/* Data value R(i-1) */
+// Long		k;	/* Key     K(i)   */
 {
 	Long	a, b, c;		/* 32 bit S-box output, & P output */
 
@@ -237,11 +236,11 @@ Long		k;	/* Key     K(i)   */
 /*
  *	s(i) - return S-box value for input i
  */
-static short s(i)
-register Long i;	/* return S-box value for input i */
+static short s(Long i)
+//  Long i;	/* return S-box value for input i */
 {
-	register short	r, c, v, t;
-	short	exp8();		/* exponentiation routine for GF(2^8) */
+	short	r, c, v, t;
+	short	exp8(short base, short exponent, short gen);		/* exponentiation routine for GF(2^8) */
 	
 	r = ((i>>8) & 0xc) | (i & 0x3);		/* row value-top 2 & bottom 2 */
 	c = (i>>2) & 0xff;			/* column value-middle 8 bits */
@@ -267,14 +266,14 @@ register Long i;	/* return S-box value for input i */
 
 #define	MSB	0x80000000L		/* MSB of 32-bit word */
 
-perm32(out, in , perm)
-Long	*out;		/* Output 32-bit block to be permuted                */
-Long	*in;		/* Input  32-bit block after permutation             */
-char	perm[32]; 	/* Permutation array                                 */
+void perm32(Long	* out, Long	* in , char perm[32])
+// Long	*out;		/* Output 32-bit block to be permuted                */
+// Long	*in;		/* Input  32-bit block after permutation             */
+// char	perm[32]; 	/* Permutation array                                 */
 {
 	Long	mask = MSB;		/* mask used to set bit in output    */
-	register int	i, o, b;	/* input bit no, output bit no, value */
-	register char	*p = perm;	/* ptr to permutation array  */
+	 int	i, o, b;	/* input bit no, output bit no, value */
+	 char	*p = perm;	/* ptr to permutation array  */
 
 	*out = 0;			/* clear output block */
 	for (o=0; o<32; o++) {		/* For each output bit position o */	
@@ -296,9 +295,9 @@ char	perm[32]; 	/* Permutation array                                 */
 
 #define SIZE 256		/* 256 elements in GF(2^8) */
 
-short mult8(a, b, gen)
-short	a, b;		/* operands for multiply */
-short	gen;		/* irreducible polynomial generating Galois Field */
+short mult8(short a, short b, short gen)
+// short	a, b;		/* operands for multiply */
+// short	gen;		/* irreducible polynomial generating Galois Field */
 {
 	short	product = 0;		/* result of multiplication */
 
@@ -319,10 +318,10 @@ short	gen;		/* irreducible polynomial generating Galois Field */
  *			exp = base ^ exp mod gen
  */
 
-short exp8(base, exponent, gen)
-short	base;		/* base of exponentiation 	*/
-short	exponent;	/* exponent			*/
-short	gen;		/* irreducible polynomial generating Galois Field */
+short exp8(short base, short exponent, short gen)
+// short	base;		/* base of exponentiation 	*/
+// short	exponent;	/* exponent			*/
+// short	gen;		/* irreducible polynomial generating Galois Field */
 {
 	short	accum = base;	/* superincreasing sequence of base */
 	short	result = 1;	/* result of exponentiation	    */

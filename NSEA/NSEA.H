@@ -83,4 +83,4 @@ void decryptCFB( BYTE *buffer, int length );
 #ifdef ASM_ENCRYPT_32
   void encrypt32( BYTE *src, BYTE *dest );
 #endif /* ASM_ENCRYPT_32 */
-LONG getRandomLong( void );
+LONG getRandomLong( void );
