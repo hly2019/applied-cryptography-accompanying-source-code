@@ -166,6 +166,7 @@ void threeway_test(
   memcpy(buffer, "HelloWorld!!", 12 * sizeof(char));
 
   encrypt(buffer, word_key);
+  decrypt(buffer, word_key);
   printf("buffer: \n");
    for(int i = 0; i < 12; i++) {
       printf("%d ", *((char*) ((char*)buffer + i * sizeof(char))));
