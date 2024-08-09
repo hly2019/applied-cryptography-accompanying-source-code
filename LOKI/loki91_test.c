@@ -351,6 +351,20 @@ void loki91_test(
 ) {
     char key[8] = { key0, key1, key2, key3, key4, key5, key6, key7 };
     char input[8] = "5c77e002d1991c4d";
+	printf("orignal: \n");
+	for(int i = 0; i < 8; i++) {
+		printf("%d ", input[i]);
+	}
+	printf("\n");
     setlokikey(key);
     enloki(input);
+	printf("encrypted: \n");
+	for(int i = 0; i < 8; i++) {
+		printf("%d ", input[i]);
+	}
+	printf("\n");
+}
+
+int main() {
+	loki91_test(0x01, 0x11, 0x21, 0x31, 0x41, 0x55, 0x66, 0x79);
 }
