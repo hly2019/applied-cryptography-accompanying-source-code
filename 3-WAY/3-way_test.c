@@ -161,8 +161,20 @@ void threeway_test(
 {
   char key[13] = {key0,key1,key2,key3,key4,key5,key6,key7,key8,key9,key10,key11,'\0'}, 
   *kp = key;
-  word32 buffer[12], word_key[3];
+  word32 buffer[12] = {0}, word_key[3] = {0};
   memcpy(word_key, key, 12);
   memcpy(buffer, "HelloWorld!!", 12 * sizeof(char));
+
   encrypt(buffer, word_key);
+  printf("buffer: \n");
+   for(int i = 0; i < 12; i++) {
+      printf("%d ", *((char*) ((char*)buffer + i * sizeof(char))));
+   }
+   printf("\n");
+}
+
+
+int main() {
+   threeway_test('1', '1','1','1','1','1','1','1','1','1','1','1');
+   return 0;
 }
