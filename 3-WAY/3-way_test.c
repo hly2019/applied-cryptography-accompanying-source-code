@@ -167,15 +167,15 @@ void threeway_test(
 
   encrypt(buffer, word_key);
   decrypt(buffer, word_key);
-  printf("buffer: \n");
-   for(int i = 0; i < 12; i++) {
-      printf("%d ", *((char*) ((char*)buffer + i * sizeof(char))));
-   }
-   printf("\n");
+//   printf("buffer: \n");
+   // for(int i = 0; i < 12; i++) {
+   //    printf("%d ", *((char*) ((char*)buffer + i * sizeof(char))));
+   // }
+   // printf("\n");
 }
 
 
-int main() {
-   threeway_test('1', '1','1','1','1','1','1','1','1','1','1','1');
-   return 0;
-}
+// int main() {
+//    threeway_test('1', '1','1','1','1','1','1','1','1','1','1','1');
+//    return 0;
+// }
